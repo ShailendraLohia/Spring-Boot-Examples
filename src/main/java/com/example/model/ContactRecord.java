@@ -1,8 +1,5 @@
 package com.example.model;
 
-import lombok.Data;
-
-//@Data
 public class ContactRecord {
     private String name;
     private String company;
