@@ -1,9 +1,20 @@
 package com.example.model;
 
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+
+@Table(name="contact_records", keyspace = "test")
 public class ContactRecord {
-    private String name;
-    private String company;
+
+    @PartitionKey
+    @Column
     private String emailId;
+    @Column
+    private String name;
+    @Column
+    private String company;
+    @Column
     private int phoneNumber;
 
     public ContactRecord(String name, String company, String emailId, int phoneNumber) {
