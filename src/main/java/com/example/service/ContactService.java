@@ -6,4 +6,5 @@ public interface ContactService {
 
     public Contacts addContactsData(Contacts contacts);
     public Contacts retrieveContactData();
+    public Contacts retrieveByEmailId(String emailId);
 }

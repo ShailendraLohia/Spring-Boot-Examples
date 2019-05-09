@@ -17,9 +17,11 @@ import java.util.List;
 public class ContactRepository {
     private static final String CREATE_CONTACT_RECORD_STATEMENT="INSERT INTO contact_records (emailId, name, company,phoneNumber) values (?, ?, ?, ?) using TTL ?";
     private static final String RETRIEVE_ALL_CONTACTS="select * from contact_records";
+    private static final String RETRIEVE_ALL_CONTACTS_BYEMAILID= "select * from contact_records where emailid=?";
 
     private PreparedStatement createContactRecordStatement;
     private PreparedStatement retrieveAllContacts;
+    private PreparedStatement retrieveAllContactsByEmailId;
 
     private BoundStatement bound;
 
@@ -30,6 +32,7 @@ public class ContactRepository {
     public void prepareStatements() {
         createContactRecordStatement = session.prepare(CREATE_CONTACT_RECORD_STATEMENT);
         retrieveAllContacts = session.prepare(RETRIEVE_ALL_CONTACTS);
+        retrieveAllContactsByEmailId = session.prepare(RETRIEVE_ALL_CONTACTS_BYEMAILID);
     }
 
     public void createContacts(Contacts contacts) {
@@ -42,23 +45,36 @@ public class ContactRepository {
     }
 
     public Contacts retrieveAllContacts() {
-        List<ContactRecord> contactRecords = new ArrayList<>();
         bound=retrieveAllContacts.bind();
         ResultSet result=session.execute(bound);
 
-        result.iterator().forEachRemaining(row ->
-                contactRecords.add(new ContactRecord(
-                        row.getString("emailId"),
-                        row.getString("name"),
-                        row.getString("company"),
-                        row.getInt("phoneNumber")
-                )));
+        return executeResultSet(result);
+
+    }
+
+    public Contacts retrieveAllContactsByEmailId(String emailId) {
+        bound=retrieveAllContactsByEmailId.bind(emailId);
+        ResultSet resultSet=session.execute(bound);
+
+        return executeResultSet(resultSet);
+    }
+
+    public Contacts executeResultSet(ResultSet resultSet) {
+        List<ContactRecord> contactRecords=new ArrayList<>();
+        resultSet.iterator()
+            .forEachRemaining(
+               row -> contactRecords.add(
+                   new ContactRecord(
+                      row.getString("emailId"),
+                      row.getString("name"),
+                      row.getString("company"),
+                      row.getInt("phoneNumber")
+                   )));
 
         Contacts contacts=new Contacts();
         contacts.setContacts(contactRecords);
 
         return contacts;
-
     }
 
 
