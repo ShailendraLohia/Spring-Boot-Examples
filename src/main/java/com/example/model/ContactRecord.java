@@ -4,16 +4,26 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Table(name="contact_records", keyspace = "test")
 public class ContactRecord {
 
     @PartitionKey
     @Column
+    @NotEmpty
+    @NotNull
     private String emailId;
+
     @Column
+    @Pattern(regexp="[(a-zA-Z0-9)]+")
     private String name;
+
     @Column
     private String company;
+
     @Column
     private int phoneNumber;
 
