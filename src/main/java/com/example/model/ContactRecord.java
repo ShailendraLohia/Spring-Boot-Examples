@@ -13,12 +13,12 @@ public class ContactRecord {
 
     @PartitionKey
     @Column
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message="Field cannot be empty")
+    @NotNull(message="Field cannot be null")
     private String emailId;
 
     @Column
-    @Pattern(regexp="[(a-zA-Z0-9)]+")
+    @Pattern(regexp="[(a-zA-Z0-9)]+", message="Enter valid name")
     private String name;
 
     @Column

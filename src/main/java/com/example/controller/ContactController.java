@@ -1,15 +1,21 @@
 package com.example.controller;
 
 import com.example.model.Contacts;
+import com.example.model.Error;
 import com.example.service.ContactServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/contacts")
@@ -25,19 +31,26 @@ public class ContactController {
     }
 
     @PostMapping
-    public  Contacts addContacts(@Valid @RequestBody Contacts contacts) {
-        return contactService.addContactsData(contacts);
+    public  ResponseEntity<Contacts> addContacts(@Valid @RequestBody Contacts contacts) {
 
+        return new ResponseEntity<>(
+                contactService.addContactsData(contacts),HttpStatus.CREATED);
     }
 
     @GetMapping
-    public Contacts getContactRecord() {
-        return contactService.retrieveContactData();
+    public ResponseEntity<Contacts> getContactRecord() {
+
+        return new ResponseEntity<>(
+                contactService.retrieveContactData(),HttpStatus.CREATED);
     }
 
     /*@Valid @Pattern(regexp="[(a-zA-Z)]+",message="Enter valid emailId")*/
     @GetMapping(value="/byEmail/{emailId}")
-    public Contacts findByEmailId(@PathVariable String emailId) {
-        return contactService.retrieveByEmailId(emailId);
+    public ResponseEntity<Contacts> findByEmailId(@PathVariable String emailId) {
+
+        return new ResponseEntity<>(
+                contactService.retrieveByEmailId(emailId),HttpStatus.CREATED);
     }
+
+
 }
