@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
@@ -37,11 +38,8 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
                     violation.getPropertyPath() + ": " + violation.getMessage());
         }
 
-//        Error err = new Error(HttpStatus.BAD_REQUEST,
-//                constraintViolationException.getMessage(), errors);
-
         Error err =
-                new Error(HttpStatus.BAD_REQUEST, errors);
+                new Error(new Date(),HttpStatus.BAD_REQUEST, errors);
 
         return new ResponseEntity<Object>(
                 err, new HttpHeaders(), err.getStatus());
@@ -64,10 +62,8 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
 
-//        Error apiError =
-//                new Error(HttpStatus.BAD_REQUEST, ex.getMessage(), errors);
         Error apiError =
-                new Error(HttpStatus.BAD_REQUEST, errors);
+                new Error(new Date(),HttpStatus.BAD_REQUEST, errors);
 
         return handleExceptionInternal(
                 ex, apiError, headers, apiError.getStatus(), request);
@@ -82,13 +78,23 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
 
         List<String> errors = new ArrayList<>();
-//        Error apiError =
-//                new Error(HttpStatus.NOT_FOUND, ex.getMessage(), errors);
+
         Error apiError =
-                new Error(HttpStatus.NOT_FOUND, errors);
+                new Error(new Date(),HttpStatus.NOT_FOUND, errors);
 
         return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler({ContactNotFoundException.class})
+
+    protected ResponseEntity<Error> handleContactNotFoundException(
+            ContactNotFoundException ex, WebRequest request) {
+
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+
+        Error error= new Error(new Date(),HttpStatus.NOT_FOUND,errors);
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exceptions.ContactNotFoundException;
 import com.example.model.Contacts;
 import com.example.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,25 @@ public class ContactServiceImpl implements ContactService {
     }
 
     public Contacts retrieveContactData() {
-        return contactRepository.retrieveAllContacts();
+        Contacts contacts= contactRepository.retrieveAllContacts();
+
+        if(contacts.getContacts().size()==0) {
+            throw new ContactNotFoundException("Requested contact Info not found");
+        }
+
+        return contacts;
     }
 
     public Contacts retrieveByEmailId(String emailId) {
-        return contactRepository.retrieveAllContactsByEmailId(emailId);
+
+        Contacts contacts= contactRepository.retrieveAllContactsByEmailId(emailId);
+
+        if(contacts.getContacts().size()==0) {
+            throw new ContactNotFoundException("Requested contact Info not found");
+        }
+
+        return contacts;
+
     }
 
 }
