@@ -97,4 +97,16 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler({RequestNotFoundException.class})
+
+    protected ResponseEntity<Error> handleRequestNotFoundException(
+            ContactNotFoundException ex, WebRequest request) {
+
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+
+        Error error= new Error(new Date(),HttpStatus.NOT_FOUND,errors);
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
 }

@@ -65,9 +65,9 @@ public class ContactRepository {
             .forEachRemaining(
                row -> contactRecords.add(
                    new ContactRecord(
+                      row.getString("company"),
                       row.getString("emailId"),
                       row.getString("name"),
-                      row.getString("company"),
                       row.getInt("phoneNumber")
                    )));
 
