@@ -22,7 +22,7 @@ public class ContactServiceImpl implements ContactService {
         return contacts;
     }
 
-    @CachePut // caches the result of findAll() method
+    @CachePut // Update the cache
     public Contacts retrieveContactData() {
         Contacts contacts= contactRepository.retrieveAllContacts();
 
