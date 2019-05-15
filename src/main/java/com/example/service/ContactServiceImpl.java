@@ -4,10 +4,14 @@ import com.example.exceptions.ContactNotFoundException;
 import com.example.model.Contacts;
 import com.example.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@CacheConfig(cacheNames={"contacts"}) // tells Spring where to store
 public class ContactServiceImpl implements ContactService {
 
     @Autowired
@@ -18,6 +22,7 @@ public class ContactServiceImpl implements ContactService {
         return contacts;
     }
 
+    @CachePut // caches the result of findAll() method
     public Contacts retrieveContactData() {
         Contacts contacts= contactRepository.retrieveAllContacts();
 
@@ -28,6 +33,7 @@ public class ContactServiceImpl implements ContactService {
         return contacts;
     }
 
+    @Cacheable // caches the result of findAll() method
     public Contacts retrieveByEmailId(String emailId) {
 
         Contacts contacts= contactRepository.retrieveAllContactsByEmailId(emailId);
