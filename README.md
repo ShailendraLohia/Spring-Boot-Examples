@@ -23,4 +23,27 @@ CREATE TABLE contact_records (
 @CacheEvict — removes data from from the cache.
 
 
+#SpringBoot-RabbitMQ- Integration
+
+1) Install rabbitMQ using docker.
+
+docker run -d --hostname local-rabbit --name demo-rmq -p 15672:15672 -p 5672:5672 rabbitmq:3.6.11-management
+
+2) stop rabbitMQ.
+
+docker stop <containerId>
+
+3) restart rabbitMQ.
+
+docker restart <containerId>
+
+#For more docker commands.
+
+https://medium.com/@nagarwal/lifecycle-of-docker-container-d2da9f85959
+
+# Deploy application on PCF.
+
+https://www.javainuse.com/pcf/pcf-rabbitmq
+
+
 
