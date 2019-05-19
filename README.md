@@ -1,6 +1,6 @@
 # Spring-Boot-Examples
 
-#Cassandra table
+# Cassandra table
 
 CREATE TABLE contact_records (  
    emailId text,  
@@ -10,7 +10,7 @@ CREATE TABLE contact_records (
    PRIMARY KEY (emailId)  
 );
 
-#Sping Caching: https://medium.com/@igorkosandyak/spring-boot-caching-d74591abe117
+# Sping Caching: https://medium.com/@igorkosandyak/spring-boot-caching-d74591abe117
 
 @EnableCaching - Enables Spring Caching functionality.
 
@@ -23,7 +23,7 @@ CREATE TABLE contact_records (
 @CacheEvict — removes data from from the cache.
 
 
-#SpringBoot-RabbitMQ- Integration
+# SpringBoot-RabbitMQ- Integration
 
 1) Install rabbitMQ using docker.
 
@@ -37,7 +37,7 @@ docker stop <containerId>
 
 docker restart <containerId>
 
-#For more docker commands.
+# For more docker commands.
 
 https://medium.com/@nagarwal/lifecycle-of-docker-container-d2da9f85959
 
