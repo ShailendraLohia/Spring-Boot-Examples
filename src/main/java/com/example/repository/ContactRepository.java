@@ -63,7 +63,7 @@ public class ContactRepository {
         List<ContactRecord> contactRecords=new ArrayList<>();
         resultSet.iterator()
             .forEachRemaining(
-               row -> contactRecords.add(
+               row -> contactRecords.add( //TODO- fields are not mapping correctly. Need to look again.
                    new ContactRecord(
                       row.getString("company"),
                       row.getString("emailId"),
